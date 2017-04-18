@@ -1,0 +1,4 @@
+services:
+  plugin.manager.config_filter:
+    class: Drupal\config_filter\Plugin\ConfigFilterPluginManager
+    parent: default_plugin_manager

@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains installation and update routines for Lightning Workflow.
+ */
+
+use Drupal\node\Entity\NodeType;
+
+/**
+ * Implements hook_install().
+ */
+function lightning_workflow_install() {
+  // Set up content type-specific permissions.
+  lightning_workflow_update_8001();
+
+  if (\Drupal::moduleHandler()->moduleExists('lightning_roles')) {
+    lightning_workflow_modules_installed(['lightning_roles']);
+  }
+}
+
+/**
+ * Applies workflow permissions to content management roles.
+ */
+function lightning_workflow_update_8001() {
+  $node_types = NodeType::loadMultiple();
+  array_walk($node_types, 'lightning_workflow_node_type_insert');
+}
+
+/**
+ * Clears the entity type definition cache.
+ */
+function lightning_workflow_update_8002() {
+  \Drupal::entityTypeManager()->clearCachedDefinitions();
+}
